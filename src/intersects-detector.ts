@@ -1,6 +1,13 @@
-import { Raycaster, Mesh, Vector2, Camera, Object3D } from "three";
+import { Raycaster, Mesh, Vector2, Camera, Object3D, type Object3DEventMap } from "three";
+import { TypedEventTarget } from './typed-event-target';
 
-export default class IntersectsDetector extends EventTarget {
+type IntersectsDetectorEvents = {
+  'intersected': Object3D<Object3DEventMap>;
+  'deintersected': null;
+  'click': Object3D<Object3DEventMap>;
+};
+
+export default class IntersectsDetector extends TypedEventTarget<IntersectsDetectorEvents> {
     private raycaster = new Raycaster()
     private objects: Mesh[]
     private camera: Camera
@@ -19,23 +26,23 @@ export default class IntersectsDetector extends EventTarget {
         if (intersects.length === 0) {
             if (this.currentObject !== null) {
                 this.currentObject = null
-                this.dispatchEvent(new CustomEvent('mouseout'))
+                this.dispatchEvent('deintersected', null)
             }
 
             return
         }
 
         if (this.currentObject !== null) {
-            this.dispatchEvent(new CustomEvent('mouseout'))
+            this.dispatchEvent('deintersected', null)
         }
 
         this.currentObject = intersects[intersects.length - 1].object
-        this.dispatchEvent(new CustomEvent('mouseover', { detail: this.currentObject }))
+        this.dispatchEvent('intersected', this.currentObject)
     }
 
     onClick() {
         if (this.currentObject) {
-            this.dispatchEvent(new CustomEvent('click', { detail: this.currentObject }))
+            this.dispatchEvent('intersected', this.currentObject)
         }
     }
 

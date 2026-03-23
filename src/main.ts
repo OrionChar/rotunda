@@ -6,6 +6,7 @@ import initEngine from './init-engine';
 import ShopMesh from './shop-mesh';
 import placeShops from './generate-shops';
 import IntersectsDetector from './intersects-detector';
+import type { MeshPhongMaterial } from 'three';
 
 const { scene, view, renderer } = initEngine(document.getElementById('app') as HTMLElement,)
 
@@ -17,20 +18,20 @@ setupEvents()
 
 let currentShop: THREE.Mesh | null = null
 
-intersectsDetector.addEventListener('mouseout', () => {
+intersectsDetector.addEventListener('deintersected', () => {
 	if (currentShop) {
-		currentShop.material.emissive.setHex(0x000000);
+		(currentShop.material as MeshPhongMaterial).emissive.set(0x000000);
 	}
 
 	currentShop = null;
 	document.body.style.cursor = 'default';
 })
 
-intersectsDetector.addEventListener('mouseover', (event) => {
+intersectsDetector.addEventListener('intersected', (event) => {
 	const shop: THREE.Mesh = event.detail as THREE.Mesh
-
+	
 	if (shop !== currentShop) {
-		shop.material.emissive.setHex(0x444444);
+		(shop.material as MeshPhongMaterial).emissive.set(0x444444);
 	}
 
 	currentShop = shop;

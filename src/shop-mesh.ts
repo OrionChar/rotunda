@@ -1,6 +1,6 @@
 import { CSS2DObject } from "three/examples/jsm/Addons.js";
 import type { ShopProperties } from "./shops";
-import { BoxGeometry, MeshStandardMaterial, Mesh } from 'three';
+import { BoxGeometry, MeshPhongMaterial, Mesh } from 'three';
 
 export default class ShopMesh {
     readonly properties: ShopProperties
@@ -8,7 +8,7 @@ export default class ShopMesh {
 
     constructor(shopProperties: ShopProperties) {
         const geometry = new BoxGeometry(shopProperties.width, shopProperties.height, shopProperties.depth);
-        const material = new MeshStandardMaterial({ color: shopProperties.color, roughness: 0.5 });
+        const material = new MeshPhongMaterial({ color: shopProperties.color });
 
         this.properties = shopProperties
         this.mesh = new Mesh(geometry, material);
