@@ -29,7 +29,7 @@ intersectsDetector.addEventListener('deintersected', () => {
 
 intersectsDetector.addEventListener('intersected', (event) => {
 	const shop: THREE.Mesh = event.detail as THREE.Mesh
-	
+
 	if (shop !== currentShop) {
 		(shop.material as MeshPhongMaterial).emissive.set(0x444444);
 	}
@@ -40,7 +40,7 @@ intersectsDetector.addEventListener('intersected', (event) => {
 
 intersectsDetector.addEventListener('click', (event) => {
 	const shop: THREE.Mesh = event.detail as THREE.Mesh
-	console.log(shop)
+	alert(shop)
 })
 
 

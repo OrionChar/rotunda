@@ -42,7 +42,7 @@ export default class IntersectsDetector extends TypedEventTarget<IntersectsDetec
 
     onClick() {
         if (this.currentObject) {
-            this.dispatchEvent('intersected', this.currentObject)
+            this.dispatchEvent('click', this.currentObject)
         }
     }
 
