@@ -11,8 +11,8 @@ import type { MeshPhongMaterial } from 'three';
 const { scene, view, renderer } = initEngine(document.getElementById('app') as HTMLElement,)
 
 const shopMeshes = generateMesh(SHOPS)
-placeShops(scene, shopMeshes)
-const intersectsDetector = new IntersectsDetector(shopMeshes.map(shop => shop.mesh), view.activeCamera)
+placeShops(scene, Array.from(shopMeshes.values()))
+const intersectsDetector = new IntersectsDetector(Array.from(shopMeshes.values()).map(shop => shop.mesh), view.activeCamera)
 
 setupEvents()
 
@@ -40,12 +40,19 @@ intersectsDetector.addEventListener('intersected', (event) => {
 
 intersectsDetector.addEventListener('click', (event) => {
 	const shop: THREE.Mesh = event.detail as THREE.Mesh
-	alert(shop)
+	alert(shopMeshes.get(shop.id)?.properties.name)
 })
 
 
-function generateMesh(shops: ShopProperties[]) {
-	return shops.map((shop) => new ShopMesh(shop))
+function generateMesh(shops: ShopProperties[]): Map<number, ShopMesh> {
+	const result = new Map()
+
+	shops.forEach((shop) => {
+		const mesh = new ShopMesh(shop)
+		result.set(mesh.mesh.id, mesh)
+	})
+
+	return result
 }
 
 function setupEvents() {
