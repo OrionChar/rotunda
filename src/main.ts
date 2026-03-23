@@ -1,0 +1,75 @@
+import * as THREE from 'three';
+
+import SHOPS, { type ShopProperties } from './shops';
+
+import initEngine from './init-engine';
+import ShopMesh from './shop-mesh';
+import placeShops from './generate-shops';
+import IntersectsDetector from './intersects-detector';
+
+const { scene, view, renderer } = initEngine(document.getElementById('app') as HTMLElement,)
+
+const shopMeshes = generateMesh(SHOPS)
+placeShops(scene, shopMeshes)
+const intersectsDetector = new IntersectsDetector(shopMeshes.map(shop => shop.mesh), view.activeCamera)
+
+setupEvents()
+
+let currentShop: THREE.Mesh | null = null
+
+intersectsDetector.addEventListener('mouseout', () => {
+	if (currentShop) {
+		currentShop.material.emissive.setHex(0x000000);
+	}
+
+	currentShop = null;
+	document.body.style.cursor = 'default';
+})
+
+intersectsDetector.addEventListener('mouseover', (event) => {
+	const shop: THREE.Mesh = event.detail as THREE.Mesh
+
+	if (shop !== currentShop) {
+		shop.material.emissive.setHex(0x444444);
+	}
+
+	currentShop = shop;
+	document.body.style.cursor = 'pointer';
+})
+
+intersectsDetector.addEventListener('click', (event) => {
+	const shop: THREE.Mesh = event.detail as THREE.Mesh
+	console.log(shop)
+})
+
+
+function generateMesh(shops: ShopProperties[]) {
+	return shops.map((shop) => new ShopMesh(shop))
+}
+
+function setupEvents() {
+	window.addEventListener('mousemove', intersectsDetector.onMousemove.bind(intersectsDetector))
+	window.addEventListener('click', intersectsDetector.onClick.bind(intersectsDetector))
+	window.addEventListener('resize', onWindowResize);
+
+	const toggle = document.getElementById('3d-toggle') as HTMLInputElement;
+	toggle.addEventListener('change', () => {
+		view.toggleView()
+	});
+
+	window.addEventListener('keydown', (e) => {
+		if (e.code === 'Space') {
+			toggle.checked = !view.is3DMode
+			view.toggleView();
+		}
+	});
+}
+
+function onWindowResize() {
+	const width = window.innerWidth;
+	const height = window.innerHeight;
+
+	view.recalculateCameraProjection(width, height)
+	renderer.WebGL.setSize(width, height);
+	renderer.CSS2D.setSize(width, height);
+}

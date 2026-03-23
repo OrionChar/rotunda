@@ -1,0 +1,118 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#canvas-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+#ui-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+}
+
+/* The switch - the box around the slider */
+.switch {
+ font-size: 17px;
+ position: relative;
+ display: inline-block;
+ width: 62px;
+ height: 35px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+ opacity: 1;
+ width: 0;
+ height: 0;
+}
+
+/* The slider */
+.slider {
+ position: absolute;
+ cursor: pointer;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 0px;
+ background: #fff;
+ transition: .4s;
+ border-radius: 30px;
+ border: 1px solid #ccc;
+}
+
+.slider:before {
+ position: absolute;
+ content: "";
+ height: 1.9em;
+ width: 1.9em;
+ border-radius: 16px;
+ left: 1.2px;
+ top: 0;
+ bottom: 0;
+ background-color: white;
+ box-shadow: 0 2px 5px #999999;
+ transition: .4s;
+}
+
+input:checked + .slider {
+ background-color: #5fdd54;
+ border: 1px solid transparent;
+}
+
+input:checked + .slider:before {
+ transform: translateX(1.5em);
+}
+
+/* button {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+
+button:hover {
+  background-color: #fff;
+}
+
+button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #0056b3;
+} */
+
+#info-panel {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  pointer-events: none;
+  display: none;
+}
+
+/* Стили для CSS2D меток */
+.label {
+  color: #000;
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  pointer-events: none;
+  /* Чтобы не блокировать клики по объектам */
+  user-select: none;
+  text-align: center;
+}
