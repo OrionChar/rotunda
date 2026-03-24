@@ -1,9 +1,9 @@
+import type { Camera, Scene, WebGLRenderer } from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer.js';
-import View from './view';
-import setupScene from './setup-scene';
-import Renderer from './renderer';
-import type { Camera, Scene, WebGLRenderer } from 'three';
+import View from './engine/view';
+import Renderer from './engine/renderer';
+import setupScene from './application/setup-scene';
 
 export default function initEngine(root: HTMLElement) {
     const renderer = new Renderer()

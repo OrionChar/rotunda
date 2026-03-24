@@ -1,4 +1,4 @@
-import IntersectsDetector from './intersects-detector';
+import IntersectsDetector from '../engine/intersects-detector';
 import type { Camera, Mesh, MeshPhongMaterial } from 'three';
 import type { MallMap } from './mall';
 

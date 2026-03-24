@@ -1,8 +1,7 @@
 
 import initEngine from './init-engine';
-import Mall from './mall';
-import initIntersectsDetector from './init-intersects-detector';
-import Facility from './facility';
+import Mall from './application/mall';
+import initIntersectsDetector from './application/init-intersects-detector';
 
 const { scene, view, renderer } = initEngine(document.getElementById('app') as HTMLElement,)
 
