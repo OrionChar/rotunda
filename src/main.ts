@@ -1,63 +1,17 @@
-import * as THREE from 'three';
-
-import SHOPS, { type ShopProperties } from './shops';
 
 import initEngine from './init-engine';
-import ShopMesh from './shop-mesh';
-import placeShops from './generate-shops';
-import IntersectsDetector from './intersects-detector';
-import type { MeshPhongMaterial } from 'three';
+import Mall from './mall';
+import initIntersectsDetector from './init-intersects-detector';
+import Facility from './facility';
 
 const { scene, view, renderer } = initEngine(document.getElementById('app') as HTMLElement,)
 
-const shopMeshes = generateMesh(SHOPS)
-placeShops(scene, Array.from(shopMeshes.values()))
-const intersectsDetector = new IntersectsDetector(Array.from(shopMeshes.values()).map(shop => shop.mesh), view.activeCamera)
-
+const mall = new Mall()
+mall.placeShops(scene)
+initIntersectsDetector(mall.map, view.activeCamera)
 setupEvents()
 
-let currentShop: THREE.Mesh | null = null
-
-intersectsDetector.addEventListener('deintersected', () => {
-	if (currentShop) {
-		(currentShop.material as MeshPhongMaterial).emissive.set(0x000000);
-	}
-
-	currentShop = null;
-	document.body.style.cursor = 'default';
-})
-
-intersectsDetector.addEventListener('intersected', (event) => {
-	const shop: THREE.Mesh = event.detail as THREE.Mesh
-
-	if (shop !== currentShop) {
-		(shop.material as MeshPhongMaterial).emissive.set(0x444444);
-	}
-
-	currentShop = shop;
-	document.body.style.cursor = 'pointer';
-})
-
-intersectsDetector.addEventListener('click', (event) => {
-	const shop: THREE.Mesh = event.detail as THREE.Mesh
-	const selected = shopMeshes.get(shop.id)
-	alert(`${selected?.properties.id} ${selected?.properties.name}`)
-})
-
-function generateMesh(shops: ShopProperties[]): Map<number, ShopMesh> {
-	const result = new Map()
-
-	shops.forEach((shop) => {
-		const mesh = new ShopMesh(shop)
-		result.set(mesh.mesh.id, mesh)
-	})
-
-	return result
-}
-
 function setupEvents() {
-	window.addEventListener('mousemove', intersectsDetector.onMousemove.bind(intersectsDetector))
-	window.addEventListener('click', intersectsDetector.onClick.bind(intersectsDetector))
 	window.addEventListener('resize', onWindowResize);
 
 	const toggle = document.getElementById('3d-toggle') as HTMLInputElement;

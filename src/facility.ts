@@ -1,22 +1,20 @@
 import { CSS2DObject } from "three/examples/jsm/Addons.js";
-import type { ShopProperties } from "./shops";
+import type { MallProperty } from "./mall";
 import { BoxGeometry, MeshPhongMaterial, Mesh } from 'three';
 
-export default class ShopMesh {
-    readonly properties: ShopProperties
+export default class Facility {
     readonly mesh: Mesh;
 
-    constructor(shopProperties: ShopProperties) {
-        const geometry = new BoxGeometry(shopProperties.width, shopProperties.height, shopProperties.depth);
-        const material = new MeshPhongMaterial({ color: shopProperties.color });
+    constructor(mallProperty: MallProperty) {
+        const geometry = new BoxGeometry(mallProperty.width, mallProperty.height, mallProperty.depth);
+        const material = new MeshPhongMaterial({ color: mallProperty.color });
 
-        this.properties = shopProperties
         this.mesh = new Mesh(geometry, material);
         this.mesh.castShadow = true;
         this.mesh.receiveShadow = true;
 
-        this.label = this.buildLabel(shopProperties.name)
-        this.label.position.set(0, shopProperties.height / 2 + 0.5, 0);
+        this.label = this.buildLabel(mallProperty.name)
+        this.label.position.set(0, mallProperty.height / 2 + 0.5, 0);
         this.mesh.add(this.label);
     }
     
