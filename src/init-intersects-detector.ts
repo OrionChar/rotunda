@@ -33,6 +33,6 @@ export default function initIntersectsDetector(map: MallMap, camera: Camera) {
         alert(`${selected?.property.id} ${selected?.property.name}`)
     })
 
-    window.addEventListener('mousemove', intersectsDetector.onMousemove)
+    window.addEventListener('mousemove', intersectsDetector.onMousemove.bind(intersectsDetector))
 	window.addEventListener('click', intersectsDetector.onClick.bind(intersectsDetector))
 }
