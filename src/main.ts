@@ -40,9 +40,9 @@ intersectsDetector.addEventListener('intersected', (event) => {
 
 intersectsDetector.addEventListener('click', (event) => {
 	const shop: THREE.Mesh = event.detail as THREE.Mesh
-	alert(shopMeshes.get(shop.id)?.properties.name)
+	const selected = shopMeshes.get(shop.id)
+	alert(`${selected?.properties.id} ${selected?.properties.name}`)
 })
-
 
 function generateMesh(shops: ShopProperties[]): Map<number, ShopMesh> {
 	const result = new Map()
