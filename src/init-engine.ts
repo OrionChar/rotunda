@@ -1,9 +1,9 @@
-import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer.js';
 import View from './view';
 import setupScene from './setup-scene';
 import Renderer from './renderer';
+import type { Camera, Scene, WebGLRenderer } from 'three';
 
 export default function initEngine(root: HTMLElement) {
     const renderer = new Renderer()
@@ -21,10 +21,10 @@ export default function initEngine(root: HTMLElement) {
 
 
 function animate(
-    renderer: THREE.WebGLRenderer,
+    renderer: WebGLRenderer,
     labelRenderer: CSS2DRenderer,
-    scene: THREE.Scene,
-    camera: THREE.Camera,
+    scene: Scene,
+    camera: Camera,
     orbit: OrbitControls
 ) {
     requestAnimationFrame(() => animate(renderer, labelRenderer, scene, camera, orbit));
